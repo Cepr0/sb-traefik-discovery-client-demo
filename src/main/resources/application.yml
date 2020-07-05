@@ -19,3 +19,8 @@ traefik:
   address: 'host.docker.internal:8180'
   provider: docker
 
+spring:
+  cloud:
+    loadbalancer:
+      cache:
+        enabled: false
