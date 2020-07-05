@@ -1,0 +1,32 @@
+version: '2.0'
+
+services:
+  traefik:
+    image: traefik:v2.2
+    command: --api.insecure=true --providers.docker --log.level=debug
+    ports:
+      - "80:80"
+      - "8180:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  first-service:
+    build: .
+    environment:
+      - DEMO_SERVICENAME=first-service
+      - DEMO_EXTERNALURL=http://second-service
+    labels:
+      - "traefik.http.services.first-service.loadbalancer.healthcheck.path=/actuator/health/readiness"
+      - "traefik.http.services.first-service.loadbalancer.healthcheck.interval=1s"
+      - "traefik.http.routers.first-service-oauth.rule=PathPrefix(`/demo`)"
+
+  second-service:
+    build: .
+    environment:
+      - DEMO_SERVICENAME=second-service
+      - DEMO_EXTERNALURL=http://first-service
+    labels:
+      - "traefik.http.services.second-service.loadbalancer.healthcheck.path=/actuator/health/readiness"
+      - "traefik.http.services.second-service.loadbalancer.healthcheck.interval=1s"
+      - "traefik.http.routers.second-service-oauth.rule=PathPrefix(`/demo`)"
+

@@ -1,0 +1,21 @@
+logging:
+  level:
+    io.github.cepr0: debug
+    org:
+      springframework:
+        web: debug
+        cloud: debug
+
+management:
+  health:
+    probes:
+      enabled: true
+
+server:
+  forward-headers-strategy: framework
+  shutdown: graceful
+
+traefik:
+  address: 'host.docker.internal:8180'
+  provider: docker
+
