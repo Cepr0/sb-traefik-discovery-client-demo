@@ -15,10 +15,6 @@ server:
   forward-headers-strategy: framework
   shutdown: graceful
 
-traefik:
-  address: 'host.docker.internal:8180'
-  provider: docker
-
 spring:
   cloud:
     loadbalancer:

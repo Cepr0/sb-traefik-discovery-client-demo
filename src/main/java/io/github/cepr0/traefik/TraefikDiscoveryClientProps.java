@@ -7,7 +7,19 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 @Data
 @ConfigurationProperties("traefik")
 public class TraefikDiscoveryClientProps {
+
+    /**
+     * Order of this DiscoveryClient, defaults to DiscoveryClient.HIGHEST_PRECEDENCE.
+     */
     private int order = DiscoveryClient.HIGHEST_PRECEDENCE;
-    private String address;
-    private String provider;
+
+    /**
+     * Base URL of traefik HTTP services endpoint.
+     */
+    private String baseUrl = "http://traefik:8080/api/http";
+
+    /**
+     * Traefik provider.
+     */
+    private String provider = "docker";
 }

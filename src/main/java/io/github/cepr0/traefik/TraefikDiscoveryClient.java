@@ -1,7 +1,6 @@
 package io.github.cepr0.traefik;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.DefaultServiceInstance;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -17,21 +16,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.springframework.http.HttpHeaders.ACCEPT;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 @Slf4j
 public class TraefikDiscoveryClient implements DiscoveryClient {
 
     private final TraefikDiscoveryClientProps props;
     private final RestTemplate traefikApi;
 
-    public TraefikDiscoveryClient(TraefikDiscoveryClientProps props, RestTemplateBuilder builder) {
+    public TraefikDiscoveryClient(TraefikDiscoveryClientProps props, RestTemplate traefikApi) {
         this.props = props;
-        traefikApi = builder
-                .rootUri("http://" + props.getAddress() + "/api/http")
-                .defaultHeader(ACCEPT, APPLICATION_JSON_VALUE)
-                .build();
+        this.traefikApi = traefikApi;
         log.debug("[d] Traefik Discovery Client has been initialized.");
     }
 
